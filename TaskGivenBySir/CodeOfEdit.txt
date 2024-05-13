@@ -1,0 +1,32 @@
+public ActionResult Edit(int id)
+{
+    var res = db.Friends.Where(m => m.Id == id).FirstOrDefault();
+    var cloneData = new Friend
+    {
+        Id = res.Id,
+        Name = res.Name,
+    };
+    if (cloneData.Name != res.Name)
+    {
+        if (cloneData != null)
+        {
+            res.Name = cloneData.Name;
+            db.SaveChanges();
+        }
+        return RedirectToAction("HomePage");
+    }
+
+    else
+    {
+        NameModel name = new NameModel();
+        if (res != null)
+        {
+            name.Name = res.Name;
+            name.Id = res.Id;
+        }
+
+        return View("AddOrEdit", name);
+    }
+
+    
+}

@@ -1,0 +1,14 @@
+﻿<!-- Index.cshtml -->
+@{
+    ViewData["Title"] = "Payment";
+}
+
+<h1>Make a Payment</h1>
+
+<form asp-controller="Payment" asp-action="ProcessPayment" method="post">
+    <div class="form-group">
+        <label for="amount">Enter Amount:</label>
+        <input type="text" class="form-control" id="amount" name="amount" placeholder="Enter Amount" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Pay with PayPal</button>
+</form>

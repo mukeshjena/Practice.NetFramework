@@ -1,0 +1,20 @@
+﻿@model PayPalGateway.Models.PayPalPaymentDetails
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Payment Details</h5>
+        <p><strong>Name:</strong> @(Model.Payer?.PayerInfo?.FirstName ?? "N/A") @(Model.Payer?.PayerInfo?.LastName ?? "N/A")</p>
+        <p><strong>Email:</strong> @(Model.Payer?.PayerInfo?.Email ?? "N/A")</p>
+        <p><strong>Amount:</strong> @(Model.Transactions?.FirstOrDefault()?.Amount?.Total ?? "N/A") @(Model.Transactions?.FirstOrDefault()?.Amount?.Currency ?? "N/A")</p>
+        <p><strong>Time and Date:</strong> @(Model.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"))</p>
+        <p><strong>Address:</strong></p>
+        @if (Model.Payer?.PayerInfo?.ShippingAddress != null)
+        {
+            <p>@Model.Payer.PayerInfo.ShippingAddress.Line1, @Model.Payer.PayerInfo.ShippingAddress.City, @Model.Payer.PayerInfo.ShippingAddress.State, @Model.Payer.PayerInfo.ShippingAddress.PostalCode, @Model.Payer.PayerInfo.ShippingAddress.CountryCode</p>
+        }
+        else
+        {
+            <p>N/A</p>
+        }
+    </div>
+</div>

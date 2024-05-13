@@ -1,0 +1,52 @@
+﻿@* @model CrudUsingCore.Models.Student
+@{
+    ViewBag.Title = ViewBag.Name != "e" ? "Create" : "Edit";
+}
+
+<form asp-action="AddOrEdit" asp-controller="Name" method="post">
+    <input asp-for="Id" type="hidden" />
+
+    <div class="form-group">
+        <label asp-for="FullName"></label>
+        <div>
+            <input type="text" asp-for="FullName" placeholder="Enter Name" />
+            <span class="text-danger" asp-validation-for="FullName"></span>
+        </div>
+        
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Email" class="col-form-label"></label>
+        <div>
+            <input type="text" asp-for="Email" placeholder="Enter Email" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+    </div>
+
+    <br />
+    <button type="submit" class="btn btn-primary">@ViewBag.Title</button>
+</form>
+    
+
+ *@
+
+
+ @* @model List<CrudUsingCore.Models.Student>
+
+@{
+    ViewBag.Title = "Index";
+    var studentData = TempData["StudentData"] as string;
+    var student = studentData != null ? JsonConvert.DeserializeObject<CrudUsingCore.Models.Student>(studentData) : null;
+}
+
+<h2>Student Management</h2>
+
+<div>
+    <!-- Partial view for the form -->
+    @await Html.PartialAsync("_StudentForm", student ?? new CrudUsingCore.Models.Student())
+</div>
+
+<div>
+    <!-- Partial view for the list of students -->
+    @await Html.PartialAsync("_StudentList", Model)
+</div> *@

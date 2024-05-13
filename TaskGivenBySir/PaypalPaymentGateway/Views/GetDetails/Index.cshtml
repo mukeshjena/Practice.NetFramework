@@ -1,0 +1,7 @@
+﻿@model string
+
+<form asp-controller="GetDetails" asp-action="GetPaymentDetails" method="post">
+    <label for="paymentId">Enter Payment ID:</label>
+    <input type="text" id="paymentId" name="paymentId" value="@Model" required />
+    <button type="submit" class="btn btn-primary">Get Details</button>
+</form>

@@ -1,0 +1,126 @@
+﻿@model IEnumerable<DAL.FileModel>
+
+@{
+    ViewData["Title"] = "File Uploader";
+}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h1 class="mb-0">Uploaded Files</h1>
+                </div>
+                <div class="card-body">
+                    @if (Model.Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>File Name</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var file in Model)
+                                    {
+                                        <tr>
+                                            <td class="text-center">@file.Id</td>
+                                            <td>@file.FileName</td>
+                                            <td class="text-center">
+                                                <a class="btn btn-success btn-sm" href="@Url.Action("Download", new { id = file.Id })">Download</a>
+                                                <form asp-action="Delete" asp-route-id="@file.Id" method="post" class="d-inline">
+                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this file?')">Delete</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-center">No files uploaded yet.</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-md-8 mx-auto">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="mb-0">Upload File</h2>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data" asp-action="Upload">
+                        <div class="container">
+                            <div class="row justify-content-center">
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <label for="file" class="btn btn-block p-5 m-0 h-100">
+                                                <i class="fas fa-file-upload fa-3x d-block mb-3"></i>
+                                                <input type="file" name="file" id="file" class="d-none" onchange="updateFileName(this)">
+                                                <span id="file-name" class="text-muted">No file selected</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row justify-content-end">
+                            <div class="col-md-2 text-right">
+                                <br />
+                                <button type="submit" class="btn btn-primary">Upload</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    <script>
+        // Show selected file name
+        function updateFileName(input) {
+            var fileName = input.files[0].name;
+            $('#file-name').text(fileName);
+        }
+
+        // Handle drag and drop events
+        var dragDropArea = document.getElementById('dragDropArea');
+        var fileInput = document.getElementById('file');
+
+        dragDropArea.addEventListener('dragover', function (event) {
+            event.preventDefault();
+            dragDropArea.classList.add('dragover');
+        });
+
+        dragDropArea.addEventListener('dragleave', function (event) {
+            event.preventDefault();
+            dragDropArea.classList.remove('dragover');
+        });
+
+        dragDropArea.addEventListener('drop', function (event) {
+            event.preventDefault();
+            dragDropArea.classList.remove('dragover');
+            fileInput.files = event.dataTransfer.files;
+            updateFileName(fileInput);
+        });
+
+        // Update file name when a file is selected
+        fileInput.addEventListener('change', function (event) {
+            updateFileName(this);
+            event.preventDefault(); // Prevent default behavior of the file input
+        });
+    </script>
+}
+
